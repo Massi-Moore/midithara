@@ -18,8 +18,8 @@ def find_arduino_port():
             time.sleep(0.5)  
             while True:
                 line = ser.readline().decode('utf-8').strip()
-                if line == "Arduino Piano":
-                    ser.write("Arduino Found".encode('utf-8'))  
+                if line == "Midithara":
+                    ser.write("Midithara found".encode('utf-8'))  
                     return ser
                 elif not line:
                     break
@@ -48,10 +48,10 @@ def read_serial(piano, sound_manager):
 
     ser = find_arduino_port()
     if ser is None:
-        print("No se encontró el Arduino")
+        print("No se encontró Midithara. Espere un momento y reinicia el programa.")
         serial_available = False
     else:
-        print("Arduino encontrado en el puerto", ser.port)
+        print("Midithara encontrado en el puerto", ser.port)
         serial_available = True
 
     while True:
@@ -76,14 +76,14 @@ def read_serial(piano, sound_manager):
                         sound_manager.toggle_effect(SCALES[current_scale_index])
 
         except (UnicodeDecodeError, serial.SerialException):
-            print("Se perdió la conexión con el Arduino")
+            print("Se perdió la conexión con Midithara. Buscando de nuevo...")
             ser = None
             serial_available = False
 
         if not serial_available:
             ser = find_arduino_port()
             if ser is not None:
-                print("Arduino encontrado en el puerto", ser.port)
+                print("Midithara encontrado en el puerto", ser.port)
                 serial_available = True
             else:
                 time.sleep(1)  # Espera un segundo antes de intentar de nuevo
