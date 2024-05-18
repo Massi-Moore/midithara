@@ -2,7 +2,6 @@
 import os
 import pygame as py
 from constants import *
-from pydub import AudioSegment
 
 class SoundManager:
     def __init__(self, scale, effect=None):
