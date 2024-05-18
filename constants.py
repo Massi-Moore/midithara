@@ -1,24 +1,33 @@
-import pygame
+import pygame as py
 
 # Dimensiones de la ventana y colores
 WIDTH = 1000
-HEIGHT = 500 
-BG_COLOR = (120, 39, 68)
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-GREEN = (215, 131, 131)
+HEIGHT = 625 
+BG_COLOR = (45,39,55)
+KEY_BG_COLOR = (63,59,73)
+WHITE = (187,109,123)
+BLACK = (129,70,80)
+Key_Light = (215, 131, 131)
+color3=(241,219,218)
+green=(173,252,200)
+
+font_title_color=(117,117,124)
 
 # Coordenadas y dimensiones de cada tecla
-KEY_WIDTH = 100
-KEY_HEIGHT = 440
+KEY_WIDTH = 85
+KEY_HEIGHT = 85
 KEY_GAP = 10
-KEY_POSITIONS = [(65 + i * (KEY_WIDTH + KEY_GAP), 260, KEY_WIDTH, KEY_HEIGHT) for i in range(8)]
+KEY_POSITIONS = [(120 + i * (KEY_WIDTH + KEY_GAP), 450, KEY_WIDTH, KEY_HEIGHT) for i in range(8)]
+color1=(232,182,194)
 
-KEYB_WIDTH = 75
-KEYB_HEIGHT = 200
-KEYB_GAP = 35
-KEYB_POSITIONS = [(135 + i * (KEYB_WIDTH + KEYB_GAP), 260, KEYB_WIDTH, KEYB_HEIGHT) for i in range(2)]
-KEYBA_POSITIONS = [(463 + i * (KEYB_WIDTH + KEYB_GAP), 260, KEYB_WIDTH, KEYB_HEIGHT) for i in range(3)]
+
+KEYB_WIDTH = 85
+KEYB_HEIGHT = 85
+KEYB_GAP = 10
+KEYB_POSITIONS = [(180 + i * (KEYB_WIDTH + KEYB_GAP), 359, KEYB_WIDTH, KEYB_HEIGHT) for i in range(2)]
+KEYBA_POSITIONS = [(460 + i * (KEYB_WIDTH + KEYB_GAP), 359, KEYB_WIDTH, KEYB_HEIGHT) for i in range(3)]
+color2=(162,87,101)
+
 
 # Asignación de teclas de piano a teclas del teclado
 KEY_MAPPING = {
@@ -30,21 +39,24 @@ KEY_MAPPING = {
     5: 5,
     6: 6,
     7: 7,
-    pygame.K_a: 0,
-    pygame.K_s: 1,
-    pygame.K_d: 2,
-    pygame.K_f: 3,
-    pygame.K_g: 4,
-    pygame.K_h: 5,
-    pygame.K_j: 6,
-    pygame.K_k: 7,
-    pygame.K_e: 8,
-    pygame.K_r: 9,
-    pygame.K_t: 10,
-    pygame.K_y: 11,
-    pygame.K_u: 12,
-    pygame.K_v: 13,
-    pygame.K_c: 14,
+    8: 8,
+    9: 9,
+    10: 10,
+    11: 11,
+    12: 12,
+    py.K_a: 0,
+    py.K_s: 1,
+    py.K_d: 2,
+    py.K_f: 3,
+    py.K_g: 4,
+    py.K_h: 5,
+    py.K_j: 6,
+    py.K_k: 7,
+    py.K_e: 8,
+    py.K_r: 9,
+    py.K_t: 10,
+    py.K_y: 11,
+    py.K_u: 12,
 }
 
 # Directorio de los sonidos de las notas
