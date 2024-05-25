@@ -40,6 +40,7 @@ def change_key_color(piano, key_index, color, delay):
     piano.update_key_color(key_index, color)
     piano.update_inner_key_color(key_index, color3)  # Agrega esta línea
 
+
 def read_serial(piano, sound_manager):
     global current_scale_index
     global volume
@@ -63,7 +64,12 @@ def read_serial(piano, sound_manager):
                     if key_index in KEY_MAPPING:
                         threading.Thread(target=change_key_color, args=(piano, key_index, Key_Light, 350)).start()
                         sound_manager.play_sound(key_index)
+                    elif key_index == 15:
+                        threading.Thread(target=sound_manager.record_audio).start()  # Añade esta líneat
                     elif key_index == 17:
+                        current_scale_index = (current_scale_index - 1) % len(SCALES)
+                        sound_manager.set_scale(SCALES[current_scale_index])
+                    elif key_index == 16:
                         current_scale_index = (current_scale_index + 1) % len(SCALES)
                         sound_manager.set_scale(SCALES[current_scale_index])
                     elif key_index == 18:
@@ -72,7 +78,7 @@ def read_serial(piano, sound_manager):
                     elif key_index == 19:
                         volume = min(1, volume + 0.1)
                         sound_manager.set_volume(volume)
-                    elif key_index == 16:
+                    elif key_index == 13:
                         sound_manager.toggle_effect(SCALES[current_scale_index])
 
         except (UnicodeDecodeError, serial.SerialException):
@@ -112,6 +118,8 @@ def main():
                     key_index = KEY_MAPPING[event.key]
                     threading.Thread(target=change_key_color, args=(piano, key_index, Key_Light, 350)).start()
                     sound_manager.play_sound(key_index)
+                elif event.key == py.K_p:  # Verifica si la tecla presionada es P
+                    threading.Thread(target=lambda: sound_manager.record_audio()).start()  # Añade esta línea 
             elif event.type == py.KEYUP:
                 if event.key in KEY_MAPPING:
                     key_index = KEY_MAPPING[event.key]

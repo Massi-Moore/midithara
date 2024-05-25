@@ -22,7 +22,7 @@ int matriz[F][C];
 int matrizAnterior[F][C] = {0};
 
 // Definir los pines para los botones adicionales
-const int buttonPins[] = {2, A0, 3, 4};
+const int buttonPins[] = {2, A0, 4, 3};
 const int numButtons = sizeof(buttonPins) / sizeof(int);
 int buttonStates[numButtons];
 int lastButtonStates[numButtons];
@@ -87,7 +87,12 @@ void leerMatriz(){
             pinMode(columnas[j],INPUT_PULLUP);
             int estadoActual = digitalRead(columnas[j]);
             if (estadoActual == LOW && matrizAnterior[i][j] == HIGH) {
-                Serial.println(i * C + j);
+                int buttonId = i * C + j;
+                Serial.println(buttonId);
+                if (buttonId == 13) {  // Si se presiona el botón con ID 13, cambiar el estado del efecto
+                    effect = !effect;
+                    updateLCD();  // Actualizar la LCD con el nuevo estado del efecto
+                }
             }
             matrizAnterior[i][j] = estadoActual;
             pinMode(columnas[j],INPUT);
@@ -95,7 +100,6 @@ void leerMatriz(){
         pinMode(filas[i],INPUT);
     }
 }
-
 void loop() {
     leerMatriz();
 
@@ -119,15 +123,18 @@ void loop() {
                         Serial.println(19);
                     }
                     break;
-                case 2:  // Botón 2 (pin 2): +1 en escala
+                case 2:  // Botón 2 (pin 2): -1 en escala
+                    scale--;
+                    if (scale < 3) {
+                        scale = 5;
+                    }
+                    Serial.println(17);
+                    break;
+                case 3:  // Botón 3 (pin A0): +1 en escala
                     scale++;
                     if (scale > 5) {
                         scale = 3;
                     }
-                    Serial.println(17);
-                    break;
-                case 3:  // Botón 3 (pin A0): cambiar efecto
-                    effect = !effect;
                     Serial.println(16);
                     break;
             }
@@ -138,6 +145,27 @@ void loop() {
 
         // Actualizar el estado anterior del botón
         lastButtonStates[i] = buttonStates[i];
+    }
+    // Leer y procesar los datos del puerto serie
+    while (Serial.available() > 0) {
+        String message = Serial.readStringUntil('\n');
+        int separatorIndex = message.indexOf(':');
+        String key = message.substring(0, separatorIndex);
+        String value = message.substring(separatorIndex + 1);
+    
+        if (key == "scale") {
+            scale = value.toInt();
+        } else if (key == "volume") {
+            volume = value.toInt();
+        } else if (key == "effect") {
+            effect = value.toInt() == 1;
+        } else if (key.toInt() == 13) {  // Si se recibe el serial 13, cambiar el estado del efecto
+            effect = !effect;
+            Serial.println("Serial 13 received, effect is now: " + String(effect));  // Mensaje de depuración
+        }
+    
+        // Actualizar la LCD con los nuevos valores
+        updateLCD();
     }
 
     delay(45);

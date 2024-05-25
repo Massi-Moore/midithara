@@ -24,6 +24,7 @@ class Piano:
         self.plus_img = py.image.load('resources/icons/plus.png')
         self.minus_img = py.image.load('resources/icons/minus.png')
         self.scale_img = py.image.load('resources/icons/scale.png')
+        self.scale2_img = py.image.load('resources/icons/scale2.png')
         self.reverb_img = py.image.load('resources/icons/reverb.png')
         self.save_img = py.image.load('resources/icons/save.png')
         self.record_img = py.image.load('resources/icons/record.png')
@@ -101,7 +102,7 @@ class Piano:
         octave = self.font1.render(f'Oct', True, font_title_color)
         self.screen.blit(octave, (135, 95))
 
-        scales = self.font2.render(f'A{scale}', True, (255, 255, 255))
+        scales = self.font2.render(f'C{scale}', True, (255, 255, 255))
         self.screen.blit(scales, (145, 120))  # Cambia las coordenadas según sea necesario    
 
         vol = self.font1.render(f'Vol', True, font_title_color)
@@ -129,14 +130,21 @@ class Piano:
         inner_pos3 = (pos3[0] + pos3[2] * self.inner_x1_pos_factor, pos3[1] + pos3[3] * self.inner_y1_pos_factor, pos3[2] * self.inner_width1_factor, pos3[3] * self.inner_height1_factor)
         py.draw.rect(self.screen, color1, inner_pos3)
 
-        self.screen.blit(self.reverb_img, (505,88))
+        self.screen.blit(self.scale2_img, (495,85))
+
+        pos3=(550, 223, 95,95)
+        py.draw.rect(self.screen, WHITE, pos3 )
+        inner_pos3 = (pos3[0] + pos3[2] * self.inner_x1_pos_factor, pos3[1] + pos3[3] * self.inner_y1_pos_factor, pos3[2] * self.inner_width1_factor, pos3[3] * self.inner_height1_factor)
+        py.draw.rect(self.screen, color1, inner_pos3)
+
+        self.screen.blit(self.reverb_img, (560,235))
         
         pos4=(600, 75, 105,105)
         py.draw.rect(self.screen, WHITE, pos4 )
         inner_pos4 = (pos4[0] + pos4[2] * self.inner_x1_pos_factor, pos4[1] + pos4[3] * self.inner_y1_pos_factor, pos4[2] * self.inner_width1_factor, pos4[3] * self.inner_height1_factor)
         py.draw.rect(self.screen, color1, inner_pos4)
 
-        self.screen.blit(self.scale_img, (615,90))
+        self.screen.blit(self.scale_img, (608,85))
         
         pos5=(740, 75, 105,105)
         py.draw.rect(self.screen, WHITE, pos5 )
@@ -170,8 +178,7 @@ class Piano:
 
         py.draw.rect(self.screen, WHITE, (730, 65, 235, 125), 3)
 
-        py.draw.rect(self.screen, WHITE, (640, 213, 215, 115), 3)
-
+        py.draw.rect(self.screen, WHITE, (540, 213, 315, 115), 3)
 
     def update_key_color(self, key_index, color):
         if 8 <= key_index <= 12:
